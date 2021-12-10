@@ -39,6 +39,10 @@ if !exists('g:maximizer_default_mapping_key')
     let g:maximizer_default_mapping_key = '<F3>'
 endif
 
+if !exists('g:maximizer_toggled')
+    let g:maximizer_toggled = 0
+endif
+
 command! -bang -nargs=0 -range MaximizerToggle :call s:toggle(<bang>0)
 
 if g:maximizer_set_default_mapping
@@ -57,6 +61,7 @@ fun! s:maximize()
     let t:maximizer_sizes = { 'before': winrestcmd() }
     vert resize | resize
     let t:maximizer_sizes.after = winrestcmd()
+    let t:maximizer_toggled = 1
     normal! ze
 endfun
 
@@ -67,6 +72,7 @@ fun! s:restore()
             wincmd =
         endif
         unlet t:maximizer_sizes
+        let t:maximizer_toggled = 0
         normal! ze
     end
 endfun
